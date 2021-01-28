@@ -2,45 +2,76 @@
   <div class="recipes">
     <v-row>
       <v-col md="9">
-        <h2>レシピ一覧</h2>
+        <h2>{{ recipe.title }}</h2>
 
-        <v-row>
-          <template v-for="recipe in recipes">
-            <v-col :key="recipe.id" cols="12">
-              <v-hover v-slot="{ hover }">
-                <v-card 
-                  :elevation="hover ? 12 : 2" 
-                  @click="linkToRecipeDetail(recipe.id)"
-                >
-                  <v-card-actions >
-                    <v-row>
-                      <v-col md="5">
-                        <img
-                          width="100%"
-                          alt="" 
-                          :src="recipe.thumbnailUrl"
-                        >
-                      </v-col>
+        <div class="mt-3">
+          <Youtube 
+            :videoId="recipe.videoId" 
+            ref="youtube" 
+            resize 
+            fitParent
+          ></Youtube>  
+        </div>
 
-                      <v-col>
-                        <h3>{{ recipe.title }}</h3>
-                        <p>{{ recipe.videoCreatedDate }}</p>
-                        <p>{{ recipe.description}}</p>
-                      </v-col>
-                    </v-row>
-                  </v-card-actions>
-                </v-card>
-              </v-hover>
-            </v-col>
-          </template>   
-        </v-row>
-        <div class="text-center recipes-pagenation">
-          <v-pagination
-            v-model="page"
-            :length="4"
-            circle
-          ></v-pagination>
-        </div>       
+        <!-- 概要 -->
+        <div id="recipe-description" class="mt-3">
+          <div class="subtitle">
+            <h3>概要</h3>
+          </div>
+          
+          <p class="pa-3">
+            {{ recipe.description }}
+          </p>
+        </div>
+
+        <!-- 材料 -->
+        <div id="recipe-ingredients" class="mt-3">
+          <div class="subtitle">
+            <h3>材料</h3>
+          </div>
+          <v-list disabled class="ml-2">
+            <template v-for="(ingredient,i) in recipe.ingredients">
+            <!-- グループあり -->
+              <template v-if="isCategoryIngredient(ingredient)">
+                <div class="ingredints-group" :key="i">
+                  <v-subheader class="text-h6 font-weight-bold">
+                    {{ ingredient.name }}
+                  </v-subheader>
+                  <v-list-item 
+                    v-for="(groupIngredient,gi) in ingredient.ingredients" 
+                    :key="gi"
+                    class="underline ingredient"
+                  >
+                    <v-list-item-content>
+                      <span class="text">{{ groupIngredient.name }}</span>
+                    </v-list-item-content>
+                    <v-list-item-content class="text-right">
+                      <span class="text-right">{{ groupIngredient.amount }}</span>
+                    </v-list-item-content>
+                  </v-list-item>
+                </div>
+              </template>
+              <template v-else>
+                <v-list-item :key="i" class="underline ingredient">
+                    <v-list-item-content>
+                      <span class="text">{{ ingredient.name }}</span>
+                    </v-list-item-content>
+                    <v-list-item-content class="text-right">
+                      <span class="text-right">{{ ingredient.amount }}</span>
+                    </v-list-item-content>
+                  </v-list-item>
+              </template>
+            </template>
+          </v-list>
+        </div> 
+
+        <!-- 手順 -->
+        <div id="recipe-steps" class="mt-3">
+          <div class="subtitle">
+            <h3>手順</h3>
+          </div>
+          
+        </div> 
       </v-col>
 
       <v-col md="3">
@@ -53,25 +84,52 @@
 
 <script>
 import recipes from '@/views/testdata/recipes.js';
+import { Youtube } from "vue-youtube";
 
 export default {
-  name: 'Recipes',
-  data: function() {
+  name: 'RecipeDetail',
+  components: {
+    Youtube
+  },
+  data() {
     return ({
-      recipes: recipes,
-      page: 1
+      recipe: {},
+      hoge: true
     })
   },
   methods: {
-    linkToRecipeDetail(id) {
-      this.$router.push({name: "RecipeDetail", params: { id: id}})
+    isCategoryIngredient(ingredient) {
+      return ingredient.type === "GROUP";
     }
+  },
+  created() {
+    const recipeId = this.$route.params.id;
+    // TODO: API通信するようにへんこう
+    this.recipe = recipes.find(e => e.id == recipeId);
   }
 }
 </script>
 
 <style scoped>
-.recipes-pagenation {
-  margin-top: 30px;
+.underline {
+  border-bottom: solid 1px #C0C0C0;
 }
+
+.subtitle {
+  border-bottom: solid 2px #C0C0C0;
+  font-size: 2.125rem;
+}
+
+.ingredints-group > .ingredient {
+  border-left: solid 4px #C0C0C0;
+}
+
+.ingredient {
+  margin-left: 15px;
+}
+
+/* .ingredints-group > .ingredient > .text {
+  margin-left: 5px;
+  border-left: solid 2px #C0C0C0;
+} */
 </style>

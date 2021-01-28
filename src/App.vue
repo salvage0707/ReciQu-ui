@@ -2,7 +2,7 @@
   <v-app>
     <Header/>
     <v-main>
-      <v-container class="main-container">
+      <v-container  class="main-container">
         <router-view></router-view>
       </v-container>
     </v-main>

@@ -8,7 +8,7 @@
           <template v-for="recipe in recipes">
             <v-col :key="recipe.id" cols="12">
               <v-hover v-slot="{ hover }">
-                <v-card 
+                <v-card
                   :elevation="hover ? 12 : 2" 
                   @click="linkToRecipeDetail(recipe.id)"
                 >
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     linkToRecipeDetail(id) {
-      this.$router.push({name: "RecipeDetail", params: { id: id}})
+      this.$router.push({name: "RecipeDetail", params: { id: id}});
     }
   }
 }
