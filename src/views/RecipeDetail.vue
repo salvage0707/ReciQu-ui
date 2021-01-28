@@ -51,6 +51,7 @@
                   </v-list-item>
                 </div>
               </template>
+              <!-- グループなし -->
               <template v-else>
                 <v-list-item :key="i" class="underline ingredient">
                     <v-list-item-content>
@@ -71,6 +72,27 @@
             <h3>手順</h3>
           </div>
           
+          <v-list disabled class="ml-2">
+            <v-list-item class="step" v-for="(step, i) in recipe.steps" :key="i">
+              <v-list-item-content>
+                <v-row>
+                  <v-col cols="2">
+                    <div class="text-center order-box font-weight-bold text-h6">
+                      {{ i }}
+                    </div>
+                    <div class="text-center mt-2">
+                      <span>{{ step.start_minutes }}:{{ step.start_seconds }}</span> 〜 <span>{{ step.end_minutes }}:{{ step.end_seconds }}</span>
+                    </div> 
+                  </v-col>
+                  <v-col cols="10">
+                    <p>
+                      {{ step.description }}
+                    </p>
+                  </v-col>
+                </v-row>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
         </div> 
       </v-col>
 
@@ -124,12 +146,11 @@ export default {
   border-left: solid 4px #C0C0C0;
 }
 
-.ingredient {
+.ingredient, .step {
   margin-left: 15px;
 }
 
-/* .ingredints-group > .ingredient > .text {
-  margin-left: 5px;
-  border-left: solid 2px #C0C0C0;
-} */
+.step  .order-box {
+  border: solid 4px #FFCC99;
+}
 </style>
