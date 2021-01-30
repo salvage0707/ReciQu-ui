@@ -116,7 +116,6 @@ export default {
   data() {
     return ({
       recipe: {},
-      hoge: true
     })
   },
   methods: {
