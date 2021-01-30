@@ -27,7 +27,6 @@ export default
       thumbnailUrl: "https://i.ytimg.com/vi/Ur2tYVZppBU/hqdefault.jpg?sqp=-oaymwEZCOADEI4CSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDP7G5kVmgGmJA2iqkUFuO2TFitvQ",
       ingredients: [
         { 
-          type: "GROUP",
           name: "肉",
           order: 1,
           ingredients: [
@@ -58,7 +57,6 @@ export default
           ]
         },
         { 
-          type: "GROUP",
           name: "タレ",
           order: 2,
           ingredients: [

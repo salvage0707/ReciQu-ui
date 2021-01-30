@@ -32,7 +32,7 @@
           <v-list disabled class="ml-2">
             <template v-for="(ingredient,i) in recipe.ingredients">
             <!-- グループあり -->
-              <template v-if="isCategoryIngredient(ingredient)">
+              <template v-if="hasChildIngredient(ingredient)">
                 <div class="ingredints-group" :key="i">
                   <v-subheader class="text-h6 font-weight-bold">
                     {{ ingredient.name }}
@@ -78,7 +78,7 @@
                 <v-row>
                   <v-col cols="2">
                     <div class="text-center order-box font-weight-bold text-h6">
-                      {{ i }}
+                      {{ i+1 }}
                     </div>
                     <div class="text-center mt-2">
                       <span>{{ step.start_minutes }}:{{ step.start_seconds }}</span> 〜 <span>{{ step.end_minutes }}:{{ step.end_seconds }}</span>
@@ -120,8 +120,8 @@ export default {
     })
   },
   methods: {
-    isCategoryIngredient(ingredient) {
-      return ingredient.type === "GROUP";
+    hasChildIngredient(ingredient) {
+      return !!ingredient.ingredients;
     }
   },
   created() {
