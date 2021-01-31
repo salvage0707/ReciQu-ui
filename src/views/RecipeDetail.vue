@@ -54,13 +54,13 @@
               <!-- グループなし -->
               <template v-else>
                 <v-list-item :key="i" class="underline ingredient">
-                    <v-list-item-content>
-                      <span class="text">{{ ingredient.name }}</span>
-                    </v-list-item-content>
-                    <v-list-item-content class="text-right">
-                      <span class="text-right">{{ ingredient.amount }}</span>
-                    </v-list-item-content>
-                  </v-list-item>
+                  <v-list-item-content>
+                    <span>{{ ingredient.name }}</span>
+                  </v-list-item-content>
+                  <v-list-item-content class="text-right">
+                    <span class="text-right">{{ ingredient.amount }}</span>
+                  </v-list-item-content>
+                </v-list-item>
               </template>
             </template>
           </v-list>
