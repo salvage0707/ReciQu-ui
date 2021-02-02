@@ -18,11 +18,8 @@
           hide-details="auto"
           class="mb-3"
           outlined
-        >
-          <template v-slot:append-outer>
-            
-          </template>
-        </v-text-field>
+        ></v-text-field>
+
         <v-btn
           elevation="2"
           class="mb-3"
@@ -48,18 +45,7 @@
         </div>
 
         <!-- 概要 -->
-        <div id="recipe-description" class="mt-3">
-          <div class="subtitle">
-            <h3>概要</h3>
-          </div>
-          
-          <p class="pa-3">
-            <v-textarea
-              v-model="description"
-              outlined
-            ></v-textarea>
-          </p>
-        </div>
+        <RecipeDescriptionForm v-model="description"></RecipeDescriptionForm>
 
         <!-- 材料 -->
         <div id="recipe-ingredients" class="mt-3">
@@ -74,6 +60,36 @@
               <v-list-item-content class="ingredient-amount">
                 分量
               </v-list-item-content>
+              <v-list-item-icon>
+                <v-menu
+                  bottom
+                  left
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      dark
+                      icon
+                      color="indigo"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      <v-icon>mdi-cog-outline</v-icon>
+                    </v-btn>
+                  </template>
+
+                  <v-list>
+                    <v-list-item link>
+                      <v-list-item-title @click="addIngredientGroup()">材料グループを追加</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>タイトル</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>タイトル</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-list-item-icon>
             </v-list-item>
 
             <template v-for="(ingredient,i) in ingredients">
@@ -108,6 +124,19 @@
                         hide-details="auto"
                       ></v-text-field>
                     </v-list-item-content>
+                    <v-list-item-icon>
+                      <v-btn
+                        class="mx-2"
+                        dark
+                        color="red"
+                        @click="removeIngredient(ingredient.ingredients, gi)"
+                        small
+                      >
+                        <v-icon dark>
+                          mdi-minus
+                        </v-icon>
+                      </v-btn>
+                    </v-list-item-icon>
                   </v-list-item>
                   <v-list-item>
                     <v-btn
@@ -119,6 +148,17 @@
                       グループに材料を追加
                       <v-icon dark>
                         mdi-plus
+                      </v-icon>
+                    </v-btn>
+                    <v-btn
+                      class="mx-2"
+                      dark
+                      color="red"
+                      @click="removeIngredient(ingredients, i)"
+                    >
+                      グループを削除
+                      <v-icon dark>
+                        mdi-minus
                       </v-icon>
                     </v-btn>
                   </v-list-item>
@@ -141,6 +181,19 @@
                       hide-details="auto"
                     ></v-text-field>
                   </v-list-item-content>
+                  <v-list-item-icon>
+                    <v-btn
+                      class="mx-2"
+                      dark
+                      color="red"
+                      small
+                      @click="removeIngredient(ingredients, i)"
+                    >
+                      <v-icon dark>
+                        mdi-minus
+                      </v-icon>
+                    </v-btn>
+                  </v-list-item-icon>
                 </v-list-item>
               </template>
             </template>
@@ -152,17 +205,6 @@
                 @click="addIngredient(ingredients)"
               >
                 材料を追加
-                <v-icon dark>
-                  mdi-plus
-                </v-icon>
-              </v-btn>
-              <v-btn
-                class="mx-2"
-                dark
-                color="indigo"
-                @click="addIngredientGroup()"
-              >
-                材料グループを追加
                 <v-icon dark>
                   mdi-plus
                 </v-icon>
@@ -211,11 +253,13 @@
 
 <script>
 import recipes from '@/views/testdata/recipes.js';
+import RecipeDescriptionForm from '@/components/recipe/RecipeDescriptionForm';
 import { Youtube, getIdFromUrl } from "vue-youtube";
 
 export default {
   name: 'RecipeNew',
   components: {
+    RecipeDescriptionForm,
     Youtube
   },
   data() {
@@ -249,6 +293,9 @@ export default {
       }
       this.addIngredient(newIngredient.ingredients);
       this.ingredients.push(newIngredient);
+    },
+    removeIngredient(target, index) {
+      target.splice(index,1);
     },
     // TODO 削除
     hasChildIngredient(ingredient) {
