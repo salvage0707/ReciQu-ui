@@ -60,142 +60,38 @@
               <v-list-item-content class="ingredient-amount">
                 分量
               </v-list-item-content>
-              <v-list-item-icon>
-                <v-menu
-                  bottom
-                  left
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      dark
-                      icon
-                      color="indigo"
-                      v-bind="attrs"
-                      v-on="on"
-                    >
-                      <v-icon>mdi-cog-outline</v-icon>
-                    </v-btn>
-                  </template>
-
-                  <v-list>
-                    <v-list-item link>
-                      <v-list-item-title @click="addIngredientGroup()">材料グループを追加</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item>
-                      <v-list-item-title>タイトル</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item>
-                      <v-list-item-title>タイトル</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </v-list-item-icon>
             </v-list-item>
 
             <template v-for="(ingredient,i) in ingredients">
-              <!-- グループあり -->
-              <template v-if="hasChildIngredient(ingredient)">
-                <div class="ingredints-group" :key="i">
-                  <v-subheader class="text-h6 font-weight-bold">
-                    <v-text-field 
-                      v-model="ingredient.name"
-                      hide-details="auto"
-                      placeholder="グループ名"
-                      outlined
-                      dense
-                    ></v-text-field>
-                  </v-subheader>
-                  <v-list-item 
-                    v-for="(groupIngredient,gi) in ingredient.ingredients" 
-                    :key="gi"
-                    class="ingredient"
+              <v-list-item  :key="i" class="ingredient">
+                <v-list-item-content>
+                  <v-text-field 
+                    v-model="ingredient.name"
+                    hide-details="auto"
+                    dense
+                  ></v-text-field>
+                </v-list-item-content>
+                <v-list-item-content class="ingredient-amount">
+                  <v-text-field
+                    v-model="ingredient.amount"
+                    dense
+                    hide-details="auto"
+                  ></v-text-field>
+                </v-list-item-content>
+                <v-list-item-icon>
+                  <v-btn
+                    class="mx-2"
+                    dark
+                    color="red"
+                    small
+                    @click="removeIngredient(ingredients, i)"
                   >
-                    <v-list-item-content>
-                      <v-text-field 
-                        v-model="groupIngredient.name"
-                        hide-details="auto"
-                        dense
-                      ></v-text-field>
-                    </v-list-item-content>
-                    <v-list-item-content class="ingredient-amount">
-                      <v-text-field
-                        v-model="groupIngredient.amount"
-                        dense
-                        hide-details="auto"
-                      ></v-text-field>
-                    </v-list-item-content>
-                    <v-list-item-icon>
-                      <v-btn
-                        class="mx-2"
-                        dark
-                        color="red"
-                        @click="removeIngredient(ingredient.ingredients, gi)"
-                        small
-                      >
-                        <v-icon dark>
-                          mdi-minus
-                        </v-icon>
-                      </v-btn>
-                    </v-list-item-icon>
-                  </v-list-item>
-                  <v-list-item>
-                    <v-btn
-                      class="mx-2"
-                      dark
-                      color="indigo"
-                      @click="addIngredient(ingredient.ingredients)"
-                    >
-                      グループに材料を追加
-                      <v-icon dark>
-                        mdi-plus
-                      </v-icon>
-                    </v-btn>
-                    <v-btn
-                      class="mx-2"
-                      dark
-                      color="red"
-                      @click="removeIngredient(ingredients, i)"
-                    >
-                      グループを削除
-                      <v-icon dark>
-                        mdi-minus
-                      </v-icon>
-                    </v-btn>
-                  </v-list-item>
-                </div>
-              </template>
-              <!-- グループなし -->
-              <template v-else>
-                <v-list-item  :key="i" class="ingredient">
-                  <v-list-item-content>
-                    <v-text-field 
-                      v-model="ingredient.name"
-                      hide-details="auto"
-                      dense
-                    ></v-text-field>
-                  </v-list-item-content>
-                  <v-list-item-content class="ingredient-amount">
-                    <v-text-field
-                      v-model="ingredient.amount"
-                      dense
-                      hide-details="auto"
-                    ></v-text-field>
-                  </v-list-item-content>
-                  <v-list-item-icon>
-                    <v-btn
-                      class="mx-2"
-                      dark
-                      color="red"
-                      small
-                      @click="removeIngredient(ingredients, i)"
-                    >
-                      <v-icon dark>
-                        mdi-minus
-                      </v-icon>
-                    </v-btn>
-                  </v-list-item-icon>
-                </v-list-item>
-              </template>
+                    <v-icon dark>
+                      mdi-minus
+                    </v-icon>
+                  </v-btn>
+                </v-list-item-icon>
+              </v-list-item>
             </template>
             <v-list-item>
               <v-btn
@@ -219,8 +115,8 @@
             <h3>手順</h3>
           </div>
           
-          <v-list disabled class="ml-2">
-            <v-list-item class="step" v-for="(step, i) in recipe.steps" :key="i">
+          <v-list class="ml-2">
+            <v-list-item class="step" v-for="(step, i) in steps" :key="i">
               <v-list-item-content>
                 <v-row>
                   <v-col cols="2">
@@ -228,7 +124,10 @@
                       {{ i+1 }}
                     </div>
                     <div class="text-center mt-2">
-                      <span>{{ step.start_minutes }}:{{ step.start_seconds }}</span> 〜 <span>{{ step.end_minutes }}:{{ step.end_seconds }}</span>
+                      <span>
+                        <v-text-field>
+                          {{ step.start_minutes }}
+                        </v-text-field>:{{ step.start_seconds }}</span> 〜 <span>{{ step.end_minutes }}:{{ step.end_seconds }}</span>
                     </div> 
                   </v-col>
                   <v-col cols="10">
@@ -252,7 +151,6 @@
 </template>
 
 <script>
-import recipes from '@/views/testdata/recipes.js';
 import RecipeDescriptionForm from '@/components/recipe/RecipeDescriptionForm';
 import { Youtube, getIdFromUrl } from "vue-youtube";
 
@@ -272,40 +170,45 @@ export default {
       releaseStatus: null,
       servings: 1,
       ingredients: [],
+      steps: [],
     })
   },
   methods: {
     changeYoutubeURL(input) {
       this.videoId = getIdFromUrl(input);
     },
-    addIngredient(target) {
+    // 材料関連
+    addIngredient() {
       const newIngredient = {
         name: "",
         amount: ""
       }
-      target.push(newIngredient);
-    },
-    addIngredientGroup() {
-      const newIngredient = {
-        name: "",
-        amount: "",
-        ingredients: []
-      }
-      this.addIngredient(newIngredient.ingredients);
       this.ingredients.push(newIngredient);
     },
     removeIngredient(target, index) {
-      target.splice(index,1);
+      this.ingredients.splice(index,1);
     },
-    // TODO 削除
-    hasChildIngredient(ingredient) {
-      return !!ingredient.ingredients;
+    // 手順関連
+    addStep() {
+      const newStep = {
+        start_minutes: "",
+        start_seconds: "",
+        end_minutes: "",
+        end_seconds: "",
+        description: ""
+      }
+      this.steps.push(newStep);
     },
   },
   created() {
-    const recipeId = 2;
-    // TODO: API通信するようにへんこう
-    this.recipe = recipes.find(e => e.id == recipeId);
+    // 材料追加の初期表示(4行)
+    this.addIngredient();
+    this.addIngredient();
+    this.addIngredient();
+    this.addIngredient();
+
+    // 手順追加の初期表示(1行)
+    this.addStep();
   }
 }
 </script>

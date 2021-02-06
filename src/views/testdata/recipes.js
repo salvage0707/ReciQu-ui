@@ -26,81 +26,61 @@ export default
       videoCreatedDate: "2021/1/23",
       thumbnailUrl: "https://i.ytimg.com/vi/Ur2tYVZppBU/hqdefault.jpg?sqp=-oaymwEZCOADEI4CSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLDP7G5kVmgGmJA2iqkUFuO2TFitvQ",
       ingredients: [
-        { 
-          name: "肉",
-          order: 1,
-          ingredients: [
-            {
-              name: "鶏もも肉",
-              amount: "300g"
-            },
-            {
-              name: "醤油",
-              amount: "小さじ1"
-            },
-            {
-              name: "塩",
-              amount: "小さじ1/3"
-            },
-            {
-              name: "酒",
-              amount: "大さじ1半"
-            },
-            {
-              name: "おろし生姜",
-              amount: "5g"
-            },
-            {
-              name: "片栗粉",
-              amount: "大さじ1＝小さじ3"
-            },
-          ]
-        },
-        { 
-          name: "タレ",
-          order: 2,
-          ingredients: [
-              {
-                name: "長ネギ",
-                amount: "1/2本(50g)"
-            },
-            {
-                name: "生姜微塵",
-                amount: "10g"
-            },
-            {
-                name: "生姜微塵",
-                amount: "10g"
-            },
-            {
-                name: "醤油",
-                amount: "大さじ2"
-            },
-            {
-                name: "砂糖",
-                amount: "小さじ4"
-            },
-            {
-                name: "酢",
-                amount: "大さじ1"
-            },
-            {
-                name: "ごま油",
-                amount: "小さじ1"
-            },
-            {
-                name: "味の素",
-                amount: "4振り"
-            },
-            {
-                name: "鷹の爪",
-                amount: "1本分"
-            },
-          ]
+        {
+          name: "鶏もも肉",
+          amount: "300g"
         },
         {
-          name: "hoge",
-          amount: "4振り"
+          name: "醤油",
+          amount: "小さじ1"
+        },
+        {
+          name: "塩",
+          amount: "小さじ1/3"
+        },
+        {
+          name: "酒",
+          amount: "大さじ1半"
+        },
+        {
+          name: "おろし生姜",
+          amount: "5g"
+        },
+        {
+          name: "片栗粉",
+          amount: "大さじ1＝小さじ3"
+        },
+          {
+            name: "長ネギ",
+            amount: "1/2本(50g)"
+        },
+        {
+            name: "生姜微塵",
+            amount: "10g"
+        },
+        {
+            name: "醤油",
+            amount: "大さじ2"
+        },
+        {
+            name: "砂糖",
+            amount: "小さじ4"
+        },
+        {
+            name: "酢",
+            amount: "大さじ1"
+        },
+        {
+            name: "ごま油",
+            amount: "小さじ1"
+        },
+        {
+            name: "味の素",
+            amount: "4振り"
+        },
+        {
+            name: "鷹の爪",
+            amount: "1本分"
         },
       ],
       steps: [

@@ -31,37 +31,15 @@
           </div>
           <v-list disabled class="ml-2">
             <template v-for="(ingredient,i) in recipe.ingredients">
-            <!-- グループあり -->
-              <template v-if="hasChildIngredient(ingredient)">
-                <div class="ingredints-group" :key="i">
-                  <v-subheader class="text-h6 font-weight-bold">
-                    {{ ingredient.name }}
-                  </v-subheader>
-                  <v-list-item 
-                    v-for="(groupIngredient,gi) in ingredient.ingredients" 
-                    :key="gi"
-                    class="underline ingredient"
-                  >
-                    <v-list-item-content>
-                      <span class="text">{{ groupIngredient.name }}</span>
-                    </v-list-item-content>
-                    <v-list-item-content class="text-right">
-                      <span class="text-right">{{ groupIngredient.amount }}</span>
-                    </v-list-item-content>
-                  </v-list-item>
-                </div>
-              </template>
               <!-- グループなし -->
-              <template v-else>
-                <v-list-item :key="i" class="underline ingredient">
-                  <v-list-item-content>
-                    <span>{{ ingredient.name }}</span>
-                  </v-list-item-content>
-                  <v-list-item-content class="text-right">
-                    <span class="text-right">{{ ingredient.amount }}</span>
-                  </v-list-item-content>
-                </v-list-item>
-              </template>
+              <v-list-item :key="i" class="underline ingredient">
+                <v-list-item-content>
+                  <span>{{ ingredient.name }}</span>
+                </v-list-item-content>
+                <v-list-item-content class="text-right">
+                  <span class="text-right">{{ ingredient.amount }}</span>
+                </v-list-item-content>
+              </v-list-item>
             </template>
           </v-list>
         </div> 
@@ -119,9 +97,6 @@ export default {
     })
   },
   methods: {
-    hasChildIngredient(ingredient) {
-      return !!ingredient.ingredients;
-    }
   },
   created() {
     const recipeId = this.$route.params.id;
